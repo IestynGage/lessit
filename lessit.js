@@ -1,10 +1,10 @@
-const newDiv = document.createElement("div");
+const mask = document.createElement("div");
 
-newDiv.className = "mask center-children";
+mask.className = "mask center-children";
 
 const modal = document.createElement("div");
-modal.className = "modal center-children"
-newDiv.appendChild(modal);
+modal.className = "lessit-modal center-children";
+mask.appendChild(modal);
 
 const redditRegex = /www.reddit.com\/r\/[^\/;]+/;
 const found = window.location.href.match(redditRegex);
@@ -22,5 +22,5 @@ const url = createTextElement(found);
 modal.appendChild(enterMessage);
 modal.appendChild(url);
 const currentDiv = document.getElementById("div1");
-document.body.insertBefore(newDiv, currentDiv);
+document.body.insertBefore(mask, currentDiv);
 document.body.style.overflow = "hidden";
