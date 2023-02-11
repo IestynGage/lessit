@@ -7,6 +7,12 @@
   z-index: 999999999;
   width: 100vw;
   height: 100vh;
+
+  display: flex;
+align-items: center;
+align-content: center;
+flex-direction: column;
+justify-content: center;
 }
 
 .center-children {
@@ -16,10 +22,6 @@
 }
 
 .lessit-modal {
-
-  position: absolute;
-  top: 0;
-  left: 0;
 
   flex-direction: column;
   gap: 25px;

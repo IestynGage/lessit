@@ -12,6 +12,8 @@
       "js": ["lessit.js"],
       "css": ["lessit.css"]
     }
+  ],
+  "permissions": [
+    "storage"
   ]
-
 }
