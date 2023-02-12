@@ -7,7 +7,7 @@ modal.className = "lessit-modal center-children";
 mask.appendChild(modal);
 
 const redditRegex = /www.reddit.com\/r\/[^\/;]+/;
-const found = window.location.href.match(redditRegex);
+const urlFound = window.location.href.match(redditRegex)[0] ?? 'www.reddit.com';
 
 const createTextElement = (text) => {
   const textNode = document.createTextNode(text);
@@ -17,18 +17,26 @@ const createTextElement = (text) => {
 }
 console.log("Hello world asdasdasdasdas")
 const enterMessage = createTextElement("Please enter the following URL to unlock the page");
-const url = createTextElement(found);
+const enterUrlText = createTextElement(urlFound);
 
-function myFunction(event) {
+function checkUrlForm(event) {
   event.preventDefault();
-  mask.innerHTML = '';
-  mask.remove();
-  document.body.style.overflow = defaultOverflow;
+  const enteredUrl = document.getElementById('lessit-url-input').value.toLocaleLowerCase();
+  if (urlFound.toLocaleLowerCase() === enteredUrl) {
+    mask.innerHTML = '';
+    mask.remove();
+    document.body.style.overflow = defaultOverflow;
+  } else {
+    console.log("Not a match");
+    console.log("enteredUrl", enteredUrl);
+    console.log("urlFound", urlFound);
+  }
 }
 const form = document.createElement("form");
-form.addEventListener('submit', myFunction)
+form.addEventListener('submit', checkUrlForm);
 
 const textInput = document.createElement("input");
+textInput.setAttribute('id', 'lessit-url-input');
 textInput.setAttribute("type", "text");
 textInput.setAttribute("name", "FullName");
 textInput.setAttribute("placeholder", "Enter the above URL");
@@ -42,7 +50,7 @@ form.appendChild(textInput);
 form.appendChild(submitElement);
 
 modal.appendChild(enterMessage);
-modal.appendChild(url);
+modal.appendChild(enterUrlText);
 
 browser.storage.local.get("reddit")
   .then(x => {
