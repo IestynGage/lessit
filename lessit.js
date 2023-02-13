@@ -1,6 +1,6 @@
 const mask = document.createElement("div");
 const defaultOverflow = document.body.style.overflow;
-mask.className = "mask";
+mask.className = "mask mask-hidden";
 
 const modal = document.createElement("div");
 modal.className = "lessit-modal center-children";
@@ -24,8 +24,11 @@ function checkUrlForm(event) {
   const enteredUrl = document.getElementById('lessit-url-input').value.toLocaleLowerCase();
   if (urlFound.toLocaleLowerCase() === enteredUrl) {
     mask.innerHTML = '';
-    mask.remove();
+    mask.classList.remove('mask-hidden');
     document.body.style.overflow = defaultOverflow;
+    setTimeout(() => {
+      mask.remove();
+    }, 500);
   } else {
     console.log("Not a match");
     console.log("enteredUrl", enteredUrl);

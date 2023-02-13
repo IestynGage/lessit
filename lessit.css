@@ -1,18 +1,30 @@
+:root {
+  --lessit-animation-time: 0.5s;
+}
+
 .mask {
   position: absolute;
   top: 0;
   left: 0;
-  backdrop-filter: blur(10px);
-  background-color: rgba(0, 0, 0, 0.1);
   z-index: 999999999;
+
   width: 100vw;
   height: 100vh;
 
   display: flex;
-align-items: center;
-align-content: center;
-flex-direction: column;
-justify-content: center;
+  align-items: center;
+  align-content: center;
+  flex-direction: column;
+  justify-content: center;
+
+  transition: backdrop-filter var(--lessit-animation-time);
+  transition: background-color var(--lessit-animation-time);
+}
+
+.mask-hidden {
+  backdrop-filter: blur(10px);
+  background-color: rgba(0, 0, 0, 0.25);
+  pointer-events: none;
 }
 
 .center-children {
@@ -25,7 +37,7 @@ justify-content: center;
 
   flex-direction: column;
   gap: 25px;
-
+  pointer-events: visible;
   background-color: white;
   height: 200px;
   width: 400px;
