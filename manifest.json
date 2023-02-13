@@ -3,7 +3,9 @@
   "name": "Lessit",
   "version": "1.0",
   "description": "A extension to reduce reddit use.",
-
+  "icons": {
+    "16":"icons/lessit-logo.png"
+  },
   "content_scripts": [
     {
       "matches": ["*://*.reddit.com/*"],
