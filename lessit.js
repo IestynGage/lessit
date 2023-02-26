@@ -15,7 +15,7 @@ const createTextElement = (text) => {
   textElement.appendChild(textNode)
   return textElement;
 }
-console.log("Hello world asdasdasdasdas")
+
 const enterMessage = createTextElement("Please enter the following URL to unlock the page");
 const enterUrlText = createTextElement(urlFound);
 
@@ -57,7 +57,7 @@ modal.appendChild(enterUrlText);
 
 browser.storage.local.get("reddit")
   .then(x => {
-    const countText = createTextElement(`You've visited this site ${x.reddit.count}`);
+    const countText = createTextElement(`You've visited this site ${x.reddit ? x.reddit.count : 0}`);
     modal.appendChild(countText);
     modal.appendChild(form)
     const currentDiv = document.getElementById("div1");
@@ -66,18 +66,23 @@ browser.storage.local.get("reddit")
     document.body.style.overflow = "hidden";
   });
 
-function increaseSiteCount (site, count) {
-  console.log("here", count)
-  browser.storage.local.set({
-    reddit: {date:"08/02/2023", count: count + 1, limit: 100},
-});
+function increaseSiteCount (lastRecordedDate, site, count) {
+  let nextCount = typeof(count) === "number" || count !== NaN ? count + 1 : 0;
+  console.log("nextCount", nextCount);
+  var todayDate = new Date();
+  todayDate.setHours(0,0,0,0)
+  if (lastRecordedDate !== todayDate) {
+    browser.storage.local.set({
+      reddit: {date:todayDate , count: nextCount, limit: 50},
+  });
+  }
 }
 
 browser.storage.local.get("reddit")
   .then(x => {
-    const count = Object.keys(x).length === 0 ? 0 : x.reddit.count;
-    increaseSiteCount("reddit", count);
-    console.log("x.count", x.count)
+    const count = Object.keys(x).length === 0 ? 0 : x.reddit ? x.reddit.count : 0;
+    const date = x.reddit ? x.reddit.date : undefined;
+    increaseSiteCount(date, "reddit", count);
   }).then(() => {
     browser.storage.local.get("reddit")
       .then(y => {
