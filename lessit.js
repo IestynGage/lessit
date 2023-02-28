@@ -55,6 +55,18 @@ form.appendChild(submitElement);
 modal.appendChild(enterMessage);
 modal.appendChild(enterUrlText);
 
+function increaseSiteCount (lastRecordedDate, site, count) {
+  let nextCount = typeof(count) === "number" || count !== NaN ? count + 1 : 0;
+  console.log("nextCount", nextCount);
+  var todayDate = new Date();
+  todayDate.setHours(0,0,0,0)
+  if (lastRecordedDate !== todayDate) {
+    browser.storage.local.set({
+      reddit: {date:todayDate , count: nextCount, limit: 5},
+  });
+  }
+}
+
 browser.storage.local.get("reddit")
   .then(x => {
     const count = x.reddit ? x.reddit.count : 0;
@@ -72,18 +84,6 @@ browser.storage.local.get("reddit")
 
     }
   });
-
-function increaseSiteCount (lastRecordedDate, site, count) {
-  let nextCount = typeof(count) === "number" || count !== NaN ? count + 1 : 0;
-  console.log("nextCount", nextCount);
-  var todayDate = new Date();
-  todayDate.setHours(0,0,0,0)
-  if (lastRecordedDate !== todayDate) {
-    browser.storage.local.set({
-      reddit: {date:todayDate , count: nextCount, limit: 5},
-  });
-  }
-}
 
 browser.storage.local.get("reddit")
   .then(x => {
