@@ -71,6 +71,8 @@ browser.storage.local.get("reddit")
   .then(x => {
     const count = x.reddit ? x.reddit.count : 0;
     const countLimit = x.reddit ? x.reddit.limit : 5;
+    const date = x.reddit ? x.reddit.date : undefined;
+
     if (count > countLimit) {
       const countText = createTextElement(`You've visited this site ${count}`);
 
@@ -83,17 +85,5 @@ browser.storage.local.get("reddit")
     } else {
 
     }
-  });
-
-browser.storage.local.get("reddit")
-  .then(x => {
-    const count = Object.keys(x).length === 0 ? 0 : x.reddit ? x.reddit.count : 0;
-    const date = x.reddit ? x.reddit.date : undefined;
     increaseSiteCount(date, "reddit", count);
-  }).then(() => {
-    browser.storage.local.get("reddit")
-      .then(y => {
-        console.log("secound get", y)
-      });
-  })
-
+  });
