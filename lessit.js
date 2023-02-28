@@ -57,13 +57,20 @@ modal.appendChild(enterUrlText);
 
 browser.storage.local.get("reddit")
   .then(x => {
-    const countText = createTextElement(`You've visited this site ${x.reddit ? x.reddit.count : 0}`);
-    modal.appendChild(countText);
-    modal.appendChild(form)
-    const currentDiv = document.getElementById("div1");
-    document.body.insertBefore(mask, currentDiv);
-    window.scrollTo(0,0);
-    document.body.style.overflow = "hidden";
+    const count = x.reddit ? x.reddit.count : 0;
+    const countLimit = x.reddit ? x.reddit.limit : 5;
+    if (count > countLimit) {
+      const countText = createTextElement(`You've visited this site ${count}`);
+
+      modal.appendChild(countText);
+      modal.appendChild(form)
+      const currentDiv = document.getElementById("div1");
+      document.body.insertBefore(mask, currentDiv);
+      window.scrollTo(0,0);
+      document.body.style.overflow = "hidden";
+    } else {
+
+    }
   });
 
 function increaseSiteCount (lastRecordedDate, site, count) {
@@ -73,7 +80,7 @@ function increaseSiteCount (lastRecordedDate, site, count) {
   todayDate.setHours(0,0,0,0)
   if (lastRecordedDate !== todayDate) {
     browser.storage.local.set({
-      reddit: {date:todayDate , count: nextCount, limit: 50},
+      reddit: {date:todayDate , count: nextCount, limit: 5},
   });
   }
 }
