@@ -62,7 +62,7 @@ function increaseSiteCount (lastRecordedDate, site, count) {
   todayDate.setHours(0,0,0,0)
   if (lastRecordedDate !== todayDate) {
     browser.storage.local.set({
-      reddit: {date:todayDate , count: nextCount, limit: 5},
+      reddit: {date:todayDate , count: nextCount, limit: 40},
   });
   }
 }
@@ -70,7 +70,7 @@ function increaseSiteCount (lastRecordedDate, site, count) {
 browser.storage.local.get("reddit")
   .then(x => {
     const count = x.reddit ? x.reddit.count : 0;
-    const countLimit = x.reddit ? x.reddit.limit : 5;
+    const countLimit = x.reddit ? x.reddit.limit : 40;
     const date = x.reddit ? x.reddit.date : undefined;
 
     if (count > countLimit) {
@@ -83,7 +83,8 @@ browser.storage.local.get("reddit")
       window.scrollTo(0,0);
       document.body.style.overflow = "hidden";
     } else {
-
+      console.log("count", count);
+      console.log("countLimit", countLimit);
     }
     increaseSiteCount(date, "reddit", count);
   });
