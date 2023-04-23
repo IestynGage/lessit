@@ -16,6 +16,18 @@ const createTextElement = (text) => {
   return textElement;
 }
 
+function onGot(item) {
+  let color = "blue";
+  if (item.totalPageVisit) {
+    color = item.totalPageVisit;
+  }
+  console.log("totalPageVisit", color)
+}
+
+const getting = browser.storage.sync.get("totalPageVisit");
+getting.then(onGot, console.log);
+
+
 const enterMessage = createTextElement("Please enter the following URL to unlock the page");
 const enterUrlText = createTextElement(urlFound);
 

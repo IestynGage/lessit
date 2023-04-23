@@ -13,7 +13,15 @@
       "css": ["lessit.css"]
     }
   ],
+  "options_ui": {
+    "page": "options.html"
+  },
   "permissions": [
     "storage"
-  ]
+  ],
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "addon@example.com"
+    }
+  }
 }
