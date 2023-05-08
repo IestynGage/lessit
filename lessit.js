@@ -1,3 +1,4 @@
+console.log("Hello")
 const mask = document.createElement("div");
 const defaultOverflow = document.body.style.overflow;
 mask.className = "mask mask-hidden";
@@ -7,7 +8,7 @@ modal.className = "lessit-modal center-children";
 mask.appendChild(modal);
 
 const redditRegex = /www.reddit.com\/r\/[^\/;]+/;
-const urlFound = window.location.href.match(redditRegex)[0] ?? 'www.reddit.com';
+const urlFound = (window.location.href.match(redditRegex) ?? ['www.reddit.com'])[0];
 
 const createTextElement = (text) => {
   const textNode = document.createTextNode(text);
@@ -97,6 +98,7 @@ browser.storage.local.get("reddit")
     } else {
       console.log("count", count);
       console.log("countLimit", countLimit);
+      console.log("date", date);
     }
     increaseSiteCount(date, "reddit", count);
   });
