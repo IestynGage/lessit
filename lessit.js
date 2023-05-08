@@ -16,19 +16,6 @@ const createTextElement = (text) => {
   return textElement;
 }
 
-// async function getPageVisitLimit() {
-//   const storedPageVisitLimit = await browser.storage.sync.get("totalPageVisit");
-//   let pageVisitLimit = 40;
-//   if (storedPageVisitLimit) {
-//     pageVisitLimit = storedPageVisitLimit.totalPageVisit;
-//   }
-
-//   resolve(pageVisitLimit);
-// }
-
-// const pageVisitLimit = getPageVisitLimit();
-// console.log(pageVisitLimit)
-
 const enterMessage = createTextElement("Please enter the following URL to unlock the page");
 const enterUrlText = createTextElement(urlFound);
 
@@ -83,8 +70,9 @@ browser.storage.local.get("reddit")
     const countLimit = x.reddit ? x.reddit.limit : 40;
     const date = x.reddit ? x.reddit.date : undefined;
     const todayDate = new Date();
+    todayDate.setHours(0, 0, 0, 0);
     
-    if (date === todayDate ) {
+    if (date.getTime() > todayDate.getTime() || date === undefined) {
       browser.storage.local.set({
         reddit: {date:todayDate , count: 0, limit: countLimit},
       });
@@ -100,7 +88,7 @@ browser.storage.local.get("reddit")
     } else {
       console.log("count", count);
       console.log("countLimit", countLimit);
-      console.log("date", date);
+      console.log("date", date.getTime());
       increaseSiteCount(date, "reddit", count, countLimit);
     }
   });

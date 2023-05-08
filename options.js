@@ -1,8 +1,5 @@
 function saveOptions(e) {
   e.preventDefault();
-  browser.storage.sync.set({
-    totalPageVisit: document.querySelector("#totalPageVisit").value
-  });
   browser.storage.local.get("reddit")
   .then(data => {
     const redditData = data.reddit;
@@ -16,14 +13,14 @@ function saveOptions(e) {
 
 function restoreOptions() {
   function setCurrentChoice(result) {
-    document.querySelector("#totalPageVisit").value = result.totalPageVisit || "40";
+    document.querySelector("#totalPageVisit").value = result.reddit.limit || 40;
   }
 
   function onError(error) {
     console.log(`Error: ${error}`);
   }
 
-  let getting = browser.storage.sync.get("totalPageVisit");
+  let getting = browser.storage.sync.get("reddit");
   getting.then(setCurrentChoice, onError);
 }
 
