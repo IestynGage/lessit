@@ -3,6 +3,15 @@ function saveOptions(e) {
   browser.storage.sync.set({
     totalPageVisit: document.querySelector("#totalPageVisit").value
   });
+  browser.storage.local.get("reddit")
+  .then(data => {
+    const redditData = data.reddit;
+    const countLimit =  document.querySelector("#totalPageVisit").value ?? 40;
+
+    browser.storage.local.set({
+      reddit: {date:redditData.date , count: redditData.count, limit: countLimit},
+    });
+  });
 }
 
 function restoreOptions() {
