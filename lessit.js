@@ -1,4 +1,3 @@
-console.log("Hello")
 const mask = document.createElement("div");
 const defaultOverflow = document.body.style.overflow;
 mask.className = "mask mask-hidden";
@@ -17,17 +16,18 @@ const createTextElement = (text) => {
   return textElement;
 }
 
-function onGot(item) {
-  let color = "blue";
-  if (item.totalPageVisit) {
-    color = item.totalPageVisit;
-  }
-  console.log("totalPageVisit", color)
-}
+// async function getPageVisitLimit() {
+//   const storedPageVisitLimit = await browser.storage.sync.get("totalPageVisit");
+//   let pageVisitLimit = 40;
+//   if (storedPageVisitLimit) {
+//     pageVisitLimit = storedPageVisitLimit.totalPageVisit;
+//   }
 
-const getting = browser.storage.sync.get("totalPageVisit");
-getting.then(onGot, console.log);
+//   resolve(pageVisitLimit);
+// }
 
+// const pageVisitLimit = getPageVisitLimit();
+// console.log(pageVisitLimit)
 
 const enterMessage = createTextElement("Please enter the following URL to unlock the page");
 const enterUrlText = createTextElement(urlFound);
@@ -68,16 +68,13 @@ form.appendChild(submitElement);
 modal.appendChild(enterMessage);
 modal.appendChild(enterUrlText);
 
-function increaseSiteCount (lastRecordedDate, site, count) {
+function increaseSiteCount (lastRecordedDate, site, count, countLimit) {
   let nextCount = typeof(count) === "number" || count !== NaN ? count + 1 : 0;
   console.log("nextCount", nextCount);
-  var todayDate = new Date();
-  todayDate.setHours(0,0,0,0)
-  if (lastRecordedDate !== todayDate) {
-    browser.storage.local.set({
-      reddit: {date:todayDate , count: nextCount, limit: 40},
+ 
+  browser.storage.local.set({
+    reddit: {date:lastRecordedDate , count: nextCount, limit: countLimit},
   });
-  }
 }
 
 browser.storage.local.get("reddit")
@@ -85,8 +82,13 @@ browser.storage.local.get("reddit")
     const count = x.reddit ? x.reddit.count : 0;
     const countLimit = x.reddit ? x.reddit.limit : 40;
     const date = x.reddit ? x.reddit.date : undefined;
-
-    if (count > countLimit) {
+    const todayDate = new Date();
+    
+    if (date === todayDate ) {
+      browser.storage.local.set({
+        reddit: {date:todayDate , count: 0, limit: countLimit},
+      });
+    } else if(count > countLimit) {
       const countText = createTextElement(`You've visited this site ${count}`);
 
       modal.appendChild(countText);
@@ -99,6 +101,6 @@ browser.storage.local.get("reddit")
       console.log("count", count);
       console.log("countLimit", countLimit);
       console.log("date", date);
+      increaseSiteCount(date, "reddit", count, countLimit);
     }
-    increaseSiteCount(date, "reddit", count);
   });
