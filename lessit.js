@@ -72,7 +72,7 @@ browser.storage.local.get("reddit")
     const todayDate = new Date();
     todayDate.setHours(0, 0, 0, 0);
     
-    if (date.getTime() > todayDate.getTime() || date === undefined) {
+    if (date === undefined || date.getTime() > todayDate.getTime()) {
       browser.storage.local.set({
         reddit: {date:todayDate , count: 0, limit: countLimit},
       });
