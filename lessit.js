@@ -26,13 +26,15 @@ function checkUrlForm(event) {
     mask.innerHTML = '';
     mask.classList.remove('mask-hidden');
     document.body.style.overflow = defaultOverflow;
+    
     setTimeout(() => {
       mask.remove();
     }, 500);
-  } else {
-    console.log("Not a match");
-    console.log("enteredUrl", enteredUrl);
-    console.log("urlFound", urlFound);
+
+    browser.storage.local.get("reddit")
+      .then(x => {
+          increaseSiteCount(x.reddit.count, "reddit", x.reddit.count, x.reddit.limit);
+      });
   }
 }
 const form = document.createElement("form");
@@ -57,7 +59,6 @@ modal.appendChild(enterUrlText);
 
 function increaseSiteCount (lastRecordedDate, site, count, countLimit) {
   let nextCount = typeof(count) === "number" || count !== NaN ? count + 1 : 0;
-  console.log("nextCount", nextCount);
  
   browser.storage.local.set({
     reddit: {date:lastRecordedDate , count: nextCount, limit: countLimit},
