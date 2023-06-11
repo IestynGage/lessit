@@ -54,9 +54,6 @@ submitElement.setAttribute("value", "Submit");
 form.appendChild(textInput);
 form.appendChild(submitElement);
 
-modal.appendChild(enterMessage);
-modal.appendChild(enterUrlText);
-
 function increaseSiteCount (lastRecordedDate, site, count, countLimit) {
   let nextCount = typeof(count) === "number" || count !== NaN ? count + 1 : 0;
  
@@ -81,15 +78,15 @@ browser.storage.local.get("reddit")
       const countText = createTextElement(`You've visited this site ${count}`);
 
       modal.appendChild(countText);
-      modal.appendChild(form)
+      modal.appendChild(enterMessage);
+      modal.appendChild(enterUrlText);
+      modal.appendChild(form);
+
       const currentDiv = document.getElementById("div1");
       document.body.insertBefore(mask, currentDiv);
       window.scrollTo(0,0);
       document.body.style.overflow = "hidden";
     } else {
-      console.log("count", count);
-      console.log("countLimit", countLimit);
-      console.log("date", date.getTime());
       increaseSiteCount(date, "reddit", count, countLimit);
     }
   });
