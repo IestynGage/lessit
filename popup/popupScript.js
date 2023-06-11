@@ -8,6 +8,5 @@ browser.storage.local.get("reddit")
 
     countEle.textContent = data.reddit.count;
     limitEle.textContent = data.reddit.limit;
-    dateEle.textContent = date.getDay() + "/" + date.getMonth() + "/";
-    dateEle.textContent = `${date.getDay()}/${date.getMonth()}/${date.getFullYear()}`
+    dateEle.textContent = `${date.getDate()}/${date.getMonth()}/${date.getFullYear()}`
   });

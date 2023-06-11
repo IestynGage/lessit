@@ -66,7 +66,7 @@ browser.storage.local.get("reddit")
   .then(x => {
     const count = x.reddit ? x.reddit.count : 0;
     const countLimit = x.reddit ? x.reddit.limit : 40;
-    const date = x.reddit ? x.reddit.date : undefined;
+    const date = x.reddit ? new Date(x.reddit.date) : undefined;
     const todayDate = new Date();
     todayDate.setHours(0, 0, 0, 0);
     
