@@ -33,7 +33,7 @@ function checkUrlForm(event) {
 
     browser.storage.local.get("reddit")
       .then(x => {
-          increaseSiteCount(x.reddit.count, "reddit", x.reddit.count, x.reddit.limit);
+          increaseSiteCount(x.reddit.date, "reddit", x.reddit.count, x.reddit.limit);
       });
   }
 }
@@ -55,8 +55,8 @@ form.appendChild(textInput);
 form.appendChild(submitElement);
 
 function increaseSiteCount (lastRecordedDate, site, count, countLimit) {
-  let nextCount = typeof(count) === "number" || count !== NaN ? count + 1 : 0;
- 
+  let nextCount = typeof(count) === "number" && count !== NaN ? count + 1 : 0;
+
   browser.storage.local.set({
     reddit: {date:lastRecordedDate , count: nextCount, limit: countLimit},
   });
@@ -69,9 +69,7 @@ browser.storage.local.get("reddit")
     const date = x.reddit ? new Date(x.reddit.date) : undefined;
     const todayDate = new Date();
     todayDate.setHours(0, 0, 0, 0);
-    
     if (date === undefined || todayDate.getTime() > date.getTime()) {
-      console.log("is more than")
       browser.storage.local.set({
         reddit: {date:todayDate , count: 0, limit: countLimit},
       });
